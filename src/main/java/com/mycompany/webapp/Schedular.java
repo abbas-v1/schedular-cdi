@@ -9,26 +9,32 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import javax.enterprise.concurrent.ManagedScheduledExecutorService;
-import javax.enterprise.context.ApplicationScoped;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  *
- * @author EGLOBAL
+ * @author abbas.muhammad
  */
-@ApplicationScoped
-public class CdiClass {
+@WebListener
+public class Schedular implements ServletContextListener {
 
     @Resource
     private ManagedScheduledExecutorService managedScheduledExecutorService;
 
     private ScheduledFuture<?> scheduledFuture;
 
-    public void startTask() {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("Things started");
         scheduledFuture = managedScheduledExecutorService.scheduleAtFixedRate(() -> repeatedTask(), 0, 2,
             TimeUnit.SECONDS);
     }
 
-    public void stopTask() {
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("Things destroyed");
         scheduledFuture.cancel(true);
     }
 
