@@ -21,7 +21,7 @@ public class NewJSFManagedBean {
     CdiClass cdiClass;
     
     public String myMethod() {
-        cdiClass.onGet();
+        cdiClass.startTask();
         return "valuing";
     }
     
