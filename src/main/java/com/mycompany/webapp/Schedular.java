@@ -20,15 +20,17 @@ import javax.servlet.annotation.WebListener;
 public class Schedular implements ServletContextListener {
 
     private ScheduledFuture<?> scheduledFuture;
+    private static final long INITIAL_DELAY = 0;
+    private static final long PERIOD = 2;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("Schedular started");
         scheduledFuture = Executors.newSingleThreadScheduledExecutor()
                 .scheduleAtFixedRate(
-                        () -> repeatedTask(),
-                        0,
-                        2,
+                        this::repeatedTask,
+                        INITIAL_DELAY,
+                        PERIOD,
                         TimeUnit.SECONDS
                 );
     }
